@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="@drawable/rnd_rect1">
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="@string/header"
+		
+		android:layout_width="match_parent"
+		android:id="@+id/tv_header"
+		style="?android:attr/buttonBarButtonStyle"
+		android:textColor="#0707F7"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:gravity="left"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="@string/body"
+		android:layout_width="match_parent"
+		android:id="@+id/tv_body"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:textStyle="italic|normal"/>
+
+</LinearLayout>
+

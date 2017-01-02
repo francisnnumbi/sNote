@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<EditText
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:id="@+id/heading"
+		android:hint="@string/hint_search"
+		android:layout_alignParentTop="true"
+		android:gravity="center_horizontal|start"
+		android:elevation="20dp"
+		android:singleLine="true"
+		android:background="@drawable/rnd_rect1"/>
+
+	<ListView
+		android:id="@+id/note_list"
+		android:layout_below="@+id/heading"
+		android:layout_width="match_parent"
+		android:nestedScrollingEnabled="true"
+		android:layout_height="match_parent"
+		android:layout_alignParentBottom="true"
+		android:padding="1dp"
+		android:clipChildren="true"
+		android:background="@drawable/rnd_rect"/>
+
+</RelativeLayout>
+

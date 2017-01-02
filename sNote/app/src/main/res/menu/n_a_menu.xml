@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <item
+        android:id="@+id/item_select_all"
+        android:title="@string/n_a_menu_select_all"/>
+	<item
+		android:id="@+id/item_copy"
+		android:title="@string/n_a_menu_copy"/>
+	<item
+		android:id="@+id/item_cut"
+		android:title="@string/n_a_menu_cut"/>
+	<item
+		android:id="@+id/item_paste"
+		android:title="@string/n_a_menu_paste"/>
+    
+</menu>
