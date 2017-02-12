@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <item
-        android:id="@+id/m_m_new"
-				android:icon="@drawable/add_ic_1"
-			android:showAsAction="always"
-        android:title="@string/menu_new"/>
-		<item
-        android:id="@+id/m_m_about"
-        android:title="@string/menu_about"/>
-		<item
-        android:id="@+id/m_m_exit"
-        android:title="@string/menu_exit"/>
-    
+
+	<item
+		android:id="@+id/m_m_new"
+		android:icon="@drawable/ic_note_text"
+		android:showAsAction="always"
+		android:title="@string/menu_new"/>
+	<item
+		android:id="@+id/m_m_about"
+		android:title="@string/menu_about"/>
+	<item
+		android:id="@+id/m_m_exit"
+		android:title="@string/menu_exit"/>
+
 </menu>

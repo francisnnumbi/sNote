@@ -13,6 +13,7 @@
 		android:textColor="#1D3CDA"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:onClick="newNote"
+		style="?android:attr/listSeparatorTextViewStyle"
 		android:background="#A5DDE6"
 		android:gravity="center"/>
 

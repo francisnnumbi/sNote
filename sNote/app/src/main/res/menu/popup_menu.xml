@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <item
+        android:id="@+id/pop_up_menu_bold"
+        android:title="Gras"/>
+	<item
+		android:id="@+id/pop_up_menu_italic"
+		android:title="Italic"/>
+    
+</menu>

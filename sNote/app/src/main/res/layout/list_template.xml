@@ -9,14 +9,14 @@
 	<TextView
 		android:layout_height="wrap_content"
 		android:text="@string/header"
-		
+		style="?android:attr/listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:id="@+id/tv_header"
-		style="?android:attr/buttonBarButtonStyle"
-		android:textColor="#0707F7"
 		android:ellipsize="end"
 		android:maxLines="1"
-		android:gravity="left"/>
+		android:gravity="left"
+		android:background="@drawable/clickable_list_item_selector"
+		android:textColor="@drawable/clickable_list_item_text_color_selector"/>
 
 	<TextView
 		android:layout_height="wrap_content"

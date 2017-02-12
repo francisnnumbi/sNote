@@ -13,7 +13,7 @@
 		android:gravity="center_horizontal|start"
 		android:elevation="20dp"
 		android:singleLine="true"
-		android:background="@drawable/rnd_rect1"/>
+		style="?android:attr/listSeparatorTextViewStyle"/>
 
 	<ListView
 		android:id="@+id/note_list"
@@ -24,7 +24,8 @@
 		android:layout_alignParentBottom="true"
 		android:padding="1dp"
 		android:clipChildren="true"
-		android:background="@drawable/rnd_rect"/>
+		android:divider="#4D4D4D"
+		android:dividerHeight="3.5dp"/>
 
 </RelativeLayout>
 

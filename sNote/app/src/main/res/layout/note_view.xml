@@ -2,76 +2,39 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
+	android:orientation="vertical"
+	android:background="@drawable/rnd_rect"
 	android:layout_height="fill_parent">
 
 	<EditText
 		android:id="@+id/note_title"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentLeft="true"
 		android:singleLine="true"
-		android:background="@drawable/rnd_rect1"
-		android:hint="@string/header_hint"/>
+		style="?android:attr/listSeparatorTextViewStyle"
+		android:background="@android:color/transparent"
+		android:hint="@string/header_hint"
+		android:layout_alignParentTop="true"/>
 
-	<EditText
-		android:layout_alignParentRight="true"
-		android:layout_alignParentLeft="true"
-		android:nestedScrollingEnabled="true"
-		android:layout_above="@+id/noo"
+	<ScrollView
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:id="@+id/sv1"
 		android:layout_below="@+id/note_title"
-		android:id="@+id/note_body"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="top|left"
-		android:background="@drawable/rnd_rect"
-		android:hint="@string/body_hint"/>
+		android:layout_alignParentBottom="true">
 
-	<LinearLayout
-		android:id="@+id/noo"
-		android:layout_gravity="fill_horizontal"
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:padding="5dp"
-		android:background="@drawable/back_gradient"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentBottom="true"
-		android:measureWithLargestChild="true">
-
-		<Button
-			android:layout_height="wrap_content"
-			android:text="Cancel"
+		<EditText
+			android:scrollHorizontally="true"
+			android:id="@+id/note_body"
+			android:inputType="textMultiLine"
 			android:layout_width="fill_parent"
-			android:id="@+id/cancel_it"
-			android:layout_weight="1"
-			android:onClick="cancel_changes"
-			android:background="@drawable/btn0"
-			android:textColor="#FFFFFF"/>
+			android:layout_height="fill_parent"
+			android:gravity="top|left"
+			android:background="@android:color/transparent"
+			android:hint="@string/body_hint"
+			android:minLines="1"/>
 
-		<Button
-			android:layout_height="wrap_content"
-			android:text="Delete"
-			android:layout_width="fill_parent"
-			android:id="@+id/delete_it"
-			android:layout_weight="1"
-			android:onClick="delete_memo"
-			android:background="@drawable/btn2"
-			android:textColor="#FFFFFF"/>
-
-		<Button
-			android:layout_height="wrap_content"
-			android:text="Save"
-			android:layout_width="fill_parent"
-			android:id="@+id/save_it"
-			android:layout_weight="1"
-			android:onClick="save_changes"
-			android:background="@drawable/btn1"
-			android:textColor="#FFFFFF"/>
-
-	</LinearLayout>
+	</ScrollView>
 
 </RelativeLayout>
 

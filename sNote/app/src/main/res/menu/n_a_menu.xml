@@ -1,16 +1,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <item
-        android:id="@+id/item_select_all"
-        android:title="@string/n_a_menu_select_all"/>
+
+	<item
+		android:id="@+id/item_save"
+		android:icon="@drawable/ic_content_save"
+		android:showAsAction="always"
+		android:title="@string/n_a_menu_save"/>
+	<item
+		android:id="@+id/item_delete"
+		android:icon="@drawable/ic_delete"
+		android:showAsAction="always"
+		android:title="@string/n_a_menu_delete"/>
+	<item
+		android:id="@+id/item_select_all"
+		android:title="@string/n_a_menu_select_all"/>
 	<item
 		android:id="@+id/item_copy"
+		android:showAsAction="always"
+		android:icon="@drawable/ic_content_copy"
 		android:title="@string/n_a_menu_copy"/>
-	<item
-		android:id="@+id/item_cut"
-		android:title="@string/n_a_menu_cut"/>
+	
 	<item
 		android:id="@+id/item_paste"
+		android:icon="@drawable/ic_content_paste"
 		android:title="@string/n_a_menu_paste"/>
-    
+	<item
+		android:id="@+id/item_share"
+		android:title="@string/n_a_menu_item_share"/>
+
 </menu>

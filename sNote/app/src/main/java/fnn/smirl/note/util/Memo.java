@@ -1,23 +1,7 @@
-package fnn.smirl.note;
+package fnn.smirl.note.util;
 
 public class Memo implements Comparable<Memo>
 {
-
- @Override
- public int compareTo(Memo p1)
- {
-	// TODO: Implement this method
-	return header.compareToIgnoreCase(p1.header);
- }
-
- @Override
- public boolean equals(Object o)
- {
-	// TODO: Implement this method
-	return header.compareToIgnoreCase(((Memo)o).header) == 0;
- }
- 
- 
 
  private String header = null, body = null;
  
@@ -53,5 +37,23 @@ public class Memo implements Comparable<Memo>
 	return header;
  }
  
+ public boolean contains(String txt){
+	return header.contains(txt) || body.contains(txt);
+ }
+ 
+ 
+ @Override
+ public int compareTo(Memo p1)
+ {
+	// TODO: Implement this method
+	return header.compareToIgnoreCase(p1.header);
+ }
+
+ @Override
+ public boolean equals(Object o)
+ {
+	// TODO: Implement this method
+	return header.compareToIgnoreCase(((Memo)o).header) == 0;
+ }
  
 }

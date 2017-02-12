@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
 	<string name="app_name">sNote</string>
 	<string name="author">Francis Nduba Numbi</string>
 	<string name="hint_search">Chercher ...</string>
 	<string name="empty_list">Liste vide ...</string>
+	<string name="sharing_statement">Partager vers ...</string>
 	<string name="in_construction">Sera ajouté bientôt...</string>
 	<string name="header">header</string>
 	<string name="header_hint">Sujet ...</string>
@@ -16,12 +16,18 @@
 	<string name="menu_about">À Propos</string>
 	<string name="menu_exit">Quitter</string>
 	<string name="notif_memo_not_saved">Echec d\'enregistrement du Memo. L\'Entête est vide</string>
+	<string name="notif_memo_saved">Memo enregisté avec succès.</string>
+	<string name="notif_memo_deleted">Memo effacé.</string>
+	
 	<string name="hello_world">Hello world!</string>
 	<string name="list_memo">LISTE DE MEMOS</string>
 	
 	<string name="n_a_menu_select_all">Selectionner tout</string>
 	<string name="n_a_menu_copy">Copier</string>
-	<string name="n_a_menu_cut">Couper</string>
+	<string name="n_a_menu_item_share">Partager</string>
 	<string name="n_a_menu_paste">Coller</string>
+	<string name="n_a_menu_save">Enregistrer</string>
+	<string name="n_a_menu_delete">Effacer</string>
+	
 
 </resources>
