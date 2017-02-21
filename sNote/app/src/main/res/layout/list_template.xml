@@ -6,17 +6,34 @@
 	android:orientation="vertical"
 	android:background="@drawable/rnd_rect1">
 
-	<TextView
+	<RelativeLayout
 		android:layout_height="wrap_content"
-		android:text="@string/header"
-		style="?android:attr/listSeparatorTextViewStyle"
-		android:layout_width="match_parent"
-		android:id="@+id/tv_header"
-		android:ellipsize="end"
-		android:maxLines="1"
-		android:gravity="left"
-		android:background="@drawable/clickable_list_item_selector"
-		android:textColor="@drawable/clickable_list_item_text_color_selector"/>
+		android:layout_width="match_parent">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="@string/header"
+			style="?android:attr/listSeparatorTextViewStyle"
+			android:layout_width="match_parent"
+			android:id="@+id/tv_header"
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:gravity="left"
+			android:layout_toLeftOf="@+id/cb_done"
+			android:background="@drawable/clickable_list_item_selector"
+			android:textColor="@drawable/clickable_list_item_text_color_selector"
+			android:layout_alignParentLeft="true"/>
+
+		<CheckBox
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:id="@+id/cb_done"
+			android:button="@drawable/my_check_box"
+			android:layout_alignParentRight="true"
+			android:text="fait"
+			android:textColor="#000000"/>
+
+	</RelativeLayout>
 
 	<TextView
 		android:layout_height="wrap_content"

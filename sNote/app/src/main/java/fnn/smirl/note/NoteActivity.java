@@ -1,6 +1,8 @@
 package fnn.smirl.note;
 import android.os.*;
 import android.text.*;
+import android.widget.*;
+import fnn.smirl.note.util.*;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -11,35 +13,36 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.Toast;
-import fnn.smirl.note.util.Memo;
-import fnn.smirl.note.util.Tokenize;
+import android.widget.TextView.BufferType;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import android.text.style.ParagraphStyle;
-import android.text.style.LeadingMarginSpan;
-import fnn.smirl.note.util.Sharing;
-import android.widget.TextView.BufferType;
+import android.content.Context;
 
 public class NoteActivity extends Activity {
 
  String tempHeader = "";
+ private long tempDateId;
  Pattern pattern = Pattern.compile("");
  Handler handler;
  EditText note_title = null;
  EditText note_body = null;
+ private TextView note_date = null;
+ private CheckBox note_done = null;
  Spannable spannable;
-
  private boolean runFormat = true;
 
  ClipboardManager mClipboard;
  ClipData mClip;
+ Memo memo, oldmemo;
 
  @Override
  protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.note_view);
+	
 	Bundle bundle = getIntent().getExtras();
 	String header = bundle.getString(getResources().getString(R.string.header));
 	tempHeader = header;
@@ -56,8 +59,8 @@ public class NoteActivity extends Activity {
 		@Override
 		public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
 		 // TODO: Implement this method
-		// runFormat = true;
-		 
+		 // runFormat = true;
+
 		}
 
 		@Override
@@ -69,12 +72,31 @@ public class NoteActivity extends Activity {
 		@Override
 		public void afterTextChanged(Editable p1) {
 		 // TODO: Implement this method
-		 
+
 		 runFormat = true;
 		}
 
 	 });
 
+	note_date = (TextView)findViewById(R.id.note_date);
+	tempDateId = bundle.getLong("date_id");
+	if (tempDateId < 1) {
+	 Calendar cal = Calendar.getInstance();
+	 tempDateId = cal.getTimeInMillis();
+	}
+	String s_date = formatDateToStringFrom(tempDateId);
+	note_date.setText(s_date);
+
+
+	note_done = (CheckBox)findViewById(R.id.note_done);
+	note_done.setChecked(bundle.getBoolean("done"));
+memo = new Memo(tempDateId, header, body, bundle.getBoolean("done"));
+oldmemo = Memo.clone(memo);
+ }
+
+ private String formatDateToStringFrom(long longDate) {
+	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	return formatter.format(new Date(longDate));
  }
 
  @Override
@@ -150,30 +172,16 @@ public class NoteActivity extends Activity {
  }
 
  public void save_changes() {
-	if (tempHeader != null) {
-	 MainActivity.deleteRecord(tempHeader);
-	}
+	 
 	String df = note_title.getText().toString();
-	if (df == "" || df == " ") df = tempHeader;
-	if (df != "") {
-	 Memo memo = new Memo(note_title.getText().toString(),
-												note_body.getText().toString());
-	 MainActivity.addRecord(memo);
-	 Toast.makeText(this, getResources().getString(R.string.notif_memo_saved),
-									Toast.LENGTH_LONG)
-		.show();
-	} else {
-	 Toast.makeText(this, getResources().getString(R.string.notif_memo_not_saved),
-									Toast.LENGTH_LONG)
-		.show();
-	}
+	memo = new Memo(tempDateId, df,
+											 note_body.getText().toString(), note_done.isChecked());
+	MainActivity.replaceRecord(memo, oldmemo);
+	 oldmemo = Memo.clone(memo);
  }
 
  public void delete_memo() {
-	MainActivity.deleteRecord(note_title.getText().toString());
-	Toast.makeText(this, getResources().getString(R.string.notif_memo_deleted),
-								 Toast.LENGTH_LONG)
-	 .show();
+	MainActivity.deleteRecord(memo);	
 	finish();
  }
 

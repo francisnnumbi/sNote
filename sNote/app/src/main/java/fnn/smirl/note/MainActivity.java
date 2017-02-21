@@ -1,45 +1,38 @@
 package fnn.smirl.note;
 
+import android.view.*;
+import android.widget.*;
+import java.io.*;
+
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import fnn.smirl.note.util.Memo;
+import fnn.smirl.note.util.NoteAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.Set;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.JSONArray;
-import fnn.smirl.note.util.NoteAdapter;
-import fnn.smirl.note.util.Memo;
 
 public class MainActivity extends Activity {
- static JSONObject jsonObj;
+ static JSONArray jsonArray;
  static JSONParser parser;
  static NoteAdapter adapter ;
+ public static Context ctx;
  public static String filename;
-
-
- private ListView note_list = null;
+ private static String criteria = "";
+ private static Resources res;
+ public static Activity ACTIVITY;
+ 
+ private static ListView note_list = null;
  EditText heading = null;
 
  @Override
@@ -48,24 +41,28 @@ public class MainActivity extends Activity {
 	setContentView(R.layout.main);
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 	 ActionBar actionBar = getActionBar();
+	 ctx = getApplicationContext();
+	 res = getResources();
+	 ACTIVITY = this;
 	 try {
 		PackageInfo info = getPackageManager()
 		 .getPackageInfo(getPackageName(), 0);
-		actionBar.setSubtitle(getResources().getString(R.string.par) + " " + getResources().getString(R.string.author));
-		actionBar.setTitle(getResources()
+		actionBar.setSubtitle(res.getString(R.string.par) + " " + getResources().getString(R.string.author));
+		actionBar.setTitle(res
 											 .getString(R.string.app_name) + " " + info.versionName + info.versionCode);
 	 }
 	 catch (PackageManager.NameNotFoundException e) {}
 	}
 	filename = getFilesDir() + "/snote.json";
-	jsonObj = new JSONObject();
+	jsonArray = new JSONArray();
 	parser = new JSONParser();
 	heading = (EditText)findViewById(R.id.heading);
 	heading.setOnEditorActionListener(new OnEditorActionListener(){
 
 		@Override
 		public boolean onEditorAction(TextView p1, int p2, KeyEvent p3) {
-		 fill_list(heading.getText().toString().trim());
+		 criteria = heading.getText().toString().trim();
+		 fill_list(criteria);
 		 return true;
 		} 
 	 });
@@ -77,25 +74,22 @@ public class MainActivity extends Activity {
 																								note_list, false);
 	note_list.addHeaderView(heady, null, false);
 
-	fill_list("");
+	retrieveRecord();
+	fill_list(criteria);
  }
 
- private void fill_list(String criteria) {
-	ArrayList<Memo> list = retrieveRecord();
+ private static void fill_list(String criteria) {
+
+	ArrayList<Memo> list = new ArrayList<Memo>();
+	list.clear();
 	filterList(list, criteria);
 	if (list.isEmpty()) {
-	 list.add(new Memo(getResources().getString(R.string.empty_list), ""));
+	 list.add(new Memo(0, res.getString(R.string.empty_list), "", false));
 	}
 	Collections.sort(list);
-
-	adapter = new NoteAdapter(this, list);
+	if (adapter!=null)adapter.clear();
+	adapter = new NoteAdapter(ctx, list);
 	note_list.setAdapter(adapter);
- }
-
- @Override
- protected void onResume() {
-	super.onResume();
-	fill_list(heading.getText().toString().trim());
  }
 
  @Override
@@ -125,67 +119,82 @@ public class MainActivity extends Activity {
 	Intent intent = new Intent(this, NoteActivity.class);
 	intent.putExtra(getResources().getString(R.string.header), "");
 	intent.putExtra(getResources().getString(R.string.body), "");
+	intent.putExtra("done", false);
+	intent.putExtra("date_id", 0);
 	startActivity(intent);
  }
-
- public void newNote(View v) {
-	newMemo();
- }
-
+ 
  /*** treating in json files */
  static void store() {
 
 	FileWriter w;
-
 	try {
 	 w = new FileWriter(filename);
-	 w.write(jsonObj.toJSONString());
+	 w.write(jsonArray.toJSONString());
 	 w.flush();
 	}
 	catch (IOException e) {}
  }
 
- private ArrayList<Memo> retrieveRecord() {
+ private void retrieveRecord() {
 	try {
 	 Object obj = parser.parse(new FileReader(filename));
-	 jsonObj.clear();
-	 jsonObj = (JSONObject)obj;
-	 ArrayList<Memo> list = new ArrayList<Memo>();
-	 Set set = jsonObj.keySet();
-	 Iterator iter = set.iterator();
-	 while (iter.hasNext()) {
-		String k = iter.next().toString();
-		String v = (String) jsonObj.get(k);
-		Memo r = new Memo(k, v);
-		list.add(r);
-	 }
-	 Collections.sort(list);
-	 return list;
+	 jsonArray.clear();
+	 jsonArray = (JSONArray)obj;
 	}
 	catch (Exception e) {}
-	return new ArrayList<Memo>();
  }
 
 
  public static void addRecord(Memo memo) {
-	jsonObj.put(memo.getHeader(), memo.getBody());
-	store();
- }
-
-
- public static void deleteRecord(String key) {
-	jsonObj.remove(key);
+	if(jsonArray.contains(toJSONObject(memo))){
+	 adapter.remove(memo);
+	 }
+	jsonArray.add(toJSONObject(memo));
 	store();
 	adapter.notifyDataSetChanged();
  }
 
+ public static JSONObject toJSONObject(Memo memo) {
+	JSONObject jOb = new JSONObject();
+	jOb.put("id", memo.dateId);
+	jOb.put("header", memo.header);
+	jOb.put("body", memo.body);
+	jOb.put("done", memo.done);
+	return jOb;
+ }
 
- private void filterList(ArrayList<Memo> l, String criteria) {
+ public static Memo toMemo(JSONObject obj) {
+	return new Memo((long)obj.get("id"), (String)obj.get("header"),
+									(String)obj.get("body"), (boolean)obj.get("done"));
+ }
+
+ public static void deleteRecord(Memo memo) {
+	if(jsonArray.contains(toJSONObject(memo))){
+	adapter.remove(memo);
+	jsonArray.remove(toJSONObject(memo));
+	store();
+	adapter.notifyDataSetChanged();
+}
+ }
+ 
+ public static void replaceRecord(Memo newMemo, Memo oldMemo){
+	deleteRecord(oldMemo);
+	addRecord(newMemo);
+	adapter.notifyDataSetChanged();
+	fill_list(criteria);
+ }
+
+
+ private static void filterList(ArrayList<Memo> l, String criteria) {
 	ArrayList<Memo> tl = new ArrayList<Memo>();
-	for (int i = 0; i < l.size(); i++) {
-	 Memo m = l.get(i);
-	 if (m.contains(criteria))
-		tl.add(m);
+	tl.clear();
+	for (int i = 0; i < jsonArray.size(); i++) {
+	 JSONObject mm = (JSONObject)jsonArray.get(i);
+	 if (((String)mm.get("header")).contains(criteria)) {
+		Memo r = toMemo(mm);
+		tl.add(r);
+	 }
 	}
 	l.clear();
 	l.addAll(tl);
