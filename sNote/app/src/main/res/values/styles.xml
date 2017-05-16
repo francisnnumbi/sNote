@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
+	<!-- theme -->
+	<style name="MyTheme" parent="Theme.AppCompat.NoActionBar">
+		<item name="colorPrimary">@color/my_primary</item>
+		<item name="colorPrimaryDark">@color/my_primary_dark</item>
+		<item name="colorAccent">@color/my_accent</item>
+		<item name="android:textColorPrimary">@color/my_primary_text</item>
+		<item name="android:textColorSecondary">@color/my_secondary_text</item>
+		<item name="android:windowBackground">@color/my_editor_text</item>
 	</style>
-	<style name="Div_inv">
-		<item name="android:layout_width">1dip</item>
-		<item name="android:background">@android:color/transparent</item>
-		<item name="android:layout_height">match_parent</item>
+	<style name="AppTheme" parent="MyTheme">
 	</style>
-	<style name="Div">
-		<item name="android:layout_width">1dip</item>
-		<item name="android:background">#000000</item>
-		<item name="android:layout_height">match_parent</item>
-	</style>
-	<style name="Div_tab_row">
-	<item name="android:paddingBottom">1dip</item>
-	<item name="android:background">#ccc</item>
-	</style>
-	
+
 </resources>

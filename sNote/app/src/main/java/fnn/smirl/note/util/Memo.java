@@ -16,7 +16,6 @@ public class Memo implements Comparable<Memo>
  @Override
  public String toString()
  {
-	// TODO: Implement this method
 	return dateId+"";
  }
  

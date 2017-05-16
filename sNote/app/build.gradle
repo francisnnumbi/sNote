@@ -9,7 +9,7 @@ android {
         minSdkVersion 7
         targetSdkVersion 14
         versionCode 200
-        versionName "2.11."
+        versionName "2.51."
     }
     buildTypes {
         release {
@@ -20,5 +20,8 @@ android {
 }
 
 dependencies {
+	compile 'com.android.support:cardview-v7:+'
+	compile 'com.android.support:design:+'
+	compile 'com.android.support:appcompat-v7:+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

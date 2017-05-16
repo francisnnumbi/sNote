@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="UTF-8"?>
+	<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
      <item>
           <shape android:shape="rectangle">
-               <solid android:color="#ffffffff"/>
+               <solid android:color="@color/window_background"/>
           </shape>
      </item>
 </layer-list>

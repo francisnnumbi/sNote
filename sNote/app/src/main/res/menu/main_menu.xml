@@ -1,9 +1,11 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
 
 	<item
 		android:id="@+id/m_m_new"
 		android:icon="@drawable/ic_note_text"
-		android:showAsAction="always"
+		app:showAsAction="always"
 		android:title="@string/menu_new"/>
 	<item
 		android:id="@+id/m_m_about"

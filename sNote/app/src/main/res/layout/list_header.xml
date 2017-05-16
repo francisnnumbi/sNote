@@ -3,6 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:background="?attr/colorPrimary"
 	android:orientation="vertical">
 
 	<TextView
@@ -10,11 +11,12 @@
 		android:text="@string/list_memo"
 		android:layout_width="match_parent"
 		android:id="@+id/header_tv"
-		android:textColor="#1D3CDA"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.Dark"
 		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:onClick="newNote"
+		
 		style="?android:attr/listSeparatorTextViewStyle"
-		android:background="#A5DDE6"
+		
 		android:gravity="center"/>
 
 </LinearLayout>
