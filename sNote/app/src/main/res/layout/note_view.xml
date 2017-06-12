@@ -54,10 +54,42 @@
 				android:id="@+id/note_done"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:text="fait"
-				android:layout_marginRight="10dp"
 				android:button="@drawable/my_check_box"
 				android:layout_alignParentRight="true"/>
+
+			<HorizontalScrollView
+				android:layout_below="@+id/note_date"
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent">
+
+				<LinearLayout
+					android:layout_height="wrap_content"
+					android:layout_width="match_parent"
+					android:orientation="horizontal">
+
+					<Button
+						android:layout_height="wrap_content"
+						android:text="//"
+						style="?android:attr/buttonBarButtonStyle"
+						android:layout_width="wrap_content"
+						android:id="@+id/noteview_single_comment"/>
+
+					<Button
+						android:layout_height="wrap_content"
+						android:text="/** */"
+						style="?android:attr/buttonBarButtonStyle"
+						android:layout_width="wrap_content"
+						android:id="@+id/noteview_multi_comment"/>
+
+					<Button
+						android:layout_height="wrap_content"
+						android:text="()"
+						style="?android:attr/buttonBarButtonStyle"
+						android:layout_width="wrap_content"
+						android:id="@+id/noteview_parenth"/>
+				</LinearLayout>
+
+			</HorizontalScrollView>
 
 		</RelativeLayout>
 
@@ -86,10 +118,21 @@
 			android:paddingRight="10dp"
 			android:paddingTop="2dp"
 			android:paddingBottom="2dp"
-			android:paddingLeft="5dp"
-			/>
+			android:paddingLeft="5dp"/>
 
 	</ScrollView>
+
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/nv_fab"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/ic_refresh"
+		android:layout_marginBottom="10dp"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="10dp"
+		android:layout_gravity="bottom|right"
+		app:fabSize="mini"/>
 
 </RelativeLayout>
 

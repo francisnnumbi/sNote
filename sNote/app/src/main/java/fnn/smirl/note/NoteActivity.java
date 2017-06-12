@@ -1,47 +1,46 @@
 package fnn.smirl.note;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
 import android.os.*;
+import android.support.design.widget.*;
+import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.text.*;
 import android.view.*;
+import android.view.View.*;
+import android.widget.TextView.*;
 import fnn.smirl.note.util.*;
+import java.text.*;
+import java.util.*;
+import java.util.regex.*;
 
-import android.app.Activity;
-import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.View.OnClickListener;
-import android.widget.TextView.BufferType;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.text.style.*;
+import android.widget.*;
 
 
 public class NoteActivity extends AppCompatActivity
-implements OnClickListener, Tokenize {
+implements Tokenize, OnClickListener {
 
 	String tempHeader = "";
 	private long tempDateId;
 	Pattern pattern = Pattern.compile("");
-	Handler handler;
 	AppCompatEditText note_title = null;
 	MemoEditText note_body = null;
 	private AppCompatTextView note_date = null;
 	private AppCompatCheckBox note_done = null;
-	Spannable spannable;
-	private boolean runFormat = true;
+	Editable spannable;
 	private static Activity _activity;
 	ClipboardManager mClipboard;
 	ClipData mClip;
 	private boolean newNote = true;
 	Memo memo;
+
+
+	private FloatingActionButton fab;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,35 +65,10 @@ implements OnClickListener, Tokenize {
 		note_body = (MemoEditText)findViewById(R.id.note_body);
 		note_body.setLineNumberVisible(true);
 		note_body.setLineNumberTextColor(Color.CYAN);
-		note_body.setLineNumberMarginGap(5);
+		note_body.setLineNumberMarginGap(10);
 		note_body.setText(memo.body);
 
 		mClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-
-		note_body.addTextChangedListener(new TextWatcher(){
-
-			@Override
-			public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
-				// TODO: Implement this method
-				// runFormat = true;
-
-			}
-
-			@Override
-			public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
-				// TODO: Implement this method
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable p1) {
-				// TODO: Implement this method
-
-				runFormat = true;
-			}
-
-		});
-
 
 		String s_date = formatDateToStringFrom(tempDateId);
 		note_date.setText(s_date);
@@ -102,36 +76,16 @@ implements OnClickListener, Tokenize {
 
 		note_done = (AppCompatCheckBox)findViewById(R.id.note_done);
 		note_done.setChecked(memo.done);
-		if (note_done.isChecked()) {
-			note_done.setText("fait");
-		} else {
-			note_done.setText("en cours");
-		}
 
-		note_done.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener(){
-			@Override
-			public void onCheckedChanged(android.widget.CompoundButton p1, boolean p2) {
-				try {	 
-					if (note_done.isChecked()) {
-						note_done.setText("fait");
-					} else {
-						note_done.setText("en cours");
-					}
-				} catch (Exception e) {}
-				// MainActivity.replaceRecord(mm, memo);
-			}
-		});
-
-
+		((Button)findViewById(R.id.noteview_multi_comment)).setOnClickListener(this);
+		((Button)findViewById(R.id.noteview_single_comment)).setOnClickListener(this);
+		((Button)findViewById(R.id.noteview_parenth)).setOnClickListener(this);
+		
+		
+		
 		setupToolbar();
-	}
-
-	@Override
-	public void onClick(View p1) {
-		// TODO: Implement this method
-		switch (p1.getId()) {
-
-		}
+		setupFab();
+		refreshFormat();
 	}
 
 	private static void displayInfo(String info) {
@@ -148,10 +102,56 @@ implements OnClickListener, Tokenize {
 		})
 		.show();
 	}
+
+	@Override
+	public void onClick(View p1) {
+		// TODO: Implement this method
+		int ii, uu;
+		CharSequence st;
+		String tt;
+		switch(p1.getId()){
+			case R.id.noteview_single_comment:
+//				ii = note_body.getSelectionStart();
+//				uu = note_body.getSelectionEnd();
+//				st = note_body.getText().subSequence(ii, uu);
+//				tt = ((Button) p1).getText().toString();
+//				note_body.getText().replace(ii, uu, tt);
+//				ii = note_body.getSelectionStart();
+//				uu = note_body.getSelectionEnd();
+//				note_body.getText().insert(ii-2, st);
+//				note_body.setSelection(ii-2, uu-2);
+//				break;
+			case R.id.noteview_multi_comment:
+				ii = note_body.getSelectionStart();
+				uu = note_body.getSelectionEnd();
+				st = note_body.getText().subSequence(ii, uu);
+				tt = ((Button) p1).getText().toString();
+				note_body.getText().replace(ii, uu, tt);
+				ii = note_body.getSelectionStart();
+				uu = note_body.getSelectionEnd();
+				note_body.getText().insert(ii-2, st);
+				note_body.setSelection(ii-2, uu-2);
+				break;
+			case R.id.noteview_parenth:
+				ii = note_body.getSelectionStart();
+				uu = note_body.getSelectionEnd();
+				st = note_body.getText().subSequence(ii, uu);
+				tt = ((Button) p1).getText().toString();
+				note_body.getText().replace(ii, uu, tt);
+				ii = note_body.getSelectionStart();
+				uu = note_body.getSelectionEnd();
+				note_body.getText().insert(ii-1, st);
+				note_body.setSelection(ii-1, uu-1);
+				break;
+				
+		}
+	}
+
+
 	
 
 	private void setupToolbar() {
-		Toolbar toolbar = (Toolbar)findViewById(R.id.note_toolbar);
+		android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.note_toolbar);
 		setSupportActionBar(toolbar);
 		final ActionBar ab = getSupportActionBar();
 		ab.setHomeAsUpIndicator(R.drawable.notepad);
@@ -161,35 +161,26 @@ implements OnClickListener, Tokenize {
 		ab.setHomeButtonEnabled(true);
 	}
 
+	private void setupFab() {
+		fab = (FloatingActionButton)findViewById(R.id.nv_fab);
+		fab.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View p1) {
+				// TODO: Implement this method
+
+//				int pos1 = note_body.getSelectionStart();
+//				int pos2 = note_body.getSelectionEnd();
+//				refreshFormat();
+//				note_body.setSelection(pos1, pos2);
+			}
+
+		});
+	}
+
 	private String formatDateToStringFrom(long longDate) {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		return formatter.format(new Date(longDate));
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		// TODO: Implement this method
-		super.onPostCreate(savedInstanceState);
-
-		handler = new Handler(Looper.getMainLooper());
-		handler.postDelayed(new Runnable(){
-
-			@Override
-			public void run() {
-				// TODO: Implement this method
-				synchronized (note_body) {
-					if (runFormat) {
-						int pos1 = note_body.getSelectionStart();
-						int pos2 = note_body.getSelectionEnd();
-						refreshFormat();
-						note_body.setSelection(pos1, pos2);
-						runFormat = false;
-					}
-					handler.postDelayed(this, 1000);
-				} 
-			}
-		}, 100);
-
 	}
 
 	@Override
@@ -221,10 +212,8 @@ implements OnClickListener, Tokenize {
 				mClipboard.setPrimaryClip(mClip);
 				break;
 			case R.id.item_share:
-				// here
-				spannable = new SpannableString(note_body.getText().toString());
+				spannable = note_body.getText();
 				Sharing.share(this, note_title.getText().toString(), Html.toHtml(spannable));
-				// end here
 				break;
 			case R.id.item_save:
 				save_changes();
@@ -266,87 +255,11 @@ implements OnClickListener, Tokenize {
 	}
 
 	private void refreshFormat() {
-//	SpannableStringBuilder ssb = new SpannableStringBuilder();
-//	ssb.append(note_body.getText().toString());
-		spannable = new SpannableString(note_body.getText().toString());
-		Matcher matcher = END.matcher(spannable);
-		formatEditor(matcher, spannable);
-
-	}
-
-	private void formatEditor(Matcher mat, Spannable ssb) {
-
-		while (mat.find()) {
-			mat.usePattern(SPACE);
-			mat.find();
-
-			mat.usePattern(NUMBER);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.BOLD),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			}
-
-			mat.usePattern(BLOCK_NAME);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.BOLD),
-				mat.start(), mat.end() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(BLOCK_NAME_COLOR)),
-				mat.start(), mat.end() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);								
-
-			}
-
-			mat.usePattern(RESERVED_KEYS);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.BOLD),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(RESERVED_KEYS_COLOR)),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);								
-
-			}
-			mat.usePattern(PRIMITIVE_TYPE);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.BOLD_ITALIC),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(PRIMITIVE_TYPE_COLOR)),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);								
-
-			}
-
-
-			mat.usePattern(BLOCK_SIGN);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.BOLD),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(BLOCK_SIGN_COLOR)),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);						
-
-			}
-
-			mat.usePattern(INV_COMMA);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.ITALIC),
-				mat.start() + 1, mat.end() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(INV_COMMA_COLOR)),
-				mat.start() + 1, mat.end() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);						
-
-
-			}
-			mat.usePattern(COMMENT_BLOCK);
-			while (mat.find()) {
-				ssb.setSpan(new StyleSpan(Typeface.ITALIC),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(COMMENT_BLOCK_COLOR)),
-				mat.start(), mat.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);						
-
-			}
-
-			mat.usePattern(END);
-			if (mat.find()) {
-
-				note_body.setText(ssb, BufferType.SPANNABLE);
-				break;
-			}
-		}
+		int pos1 = note_body.getSelectionStart();
+		int pos2 = note_body.getSelectionEnd();
+		spannable = note_body.getText();
+		EditorUtils.formatEditor(spannable);
+		note_body.setText(spannable, BufferType.SPANNABLE);
+		note_body.setSelection(pos1, pos2);
 	}
 }

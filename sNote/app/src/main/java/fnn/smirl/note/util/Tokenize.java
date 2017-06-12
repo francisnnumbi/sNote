@@ -26,4 +26,5 @@ public interface Tokenize
  public static Pattern BLOCK_SIGN = Pattern.compile("[=<>\\p{Punct}&&[^.?-]]");
  public static Pattern COMMENT_BLOCK = Pattern.compile("((//).+)|((?s)(/\\*([^*]|[\\s]|(\\*+([^*/]|[\\s])))*\\*+/))");
  public static Pattern BLOCK_NAME = Pattern.compile("(\\.|\\s+)?(\\w+)(\\s+)?[\\{|\\(|\\[]");
-}
+
+ }

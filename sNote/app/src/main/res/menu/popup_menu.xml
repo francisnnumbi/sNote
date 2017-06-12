@@ -3,10 +3,13 @@
 	>
     
     <item
-        android:id="@+id/pop_up_menu_bold"
-        android:title="Gras"/>
+        android:id="@+id/pop_up_menu_new"
+        android:title="New"/>
 	<item
-		android:id="@+id/pop_up_menu_italic"
-		android:title="Italic"/>
+		android:id="@+id/pop_up_menu_edit"
+		android:title="Edit"/>
+ <item
+	android:id="@+id/pop_up_menu_delete"
+	android:title="Delete"/>
     
 </menu>

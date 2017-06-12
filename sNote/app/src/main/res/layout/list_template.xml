@@ -72,8 +72,6 @@
 					android:id="@+id/cb_done"
 					android:button="@drawable/my_check_box"
 					android:layout_alignParentRight="true"
-					android:text="fait"
-					android:layout_marginRight="10dp"
 					android:layout_alignParentBottom="true"/>
 
 			</RelativeLayout>
